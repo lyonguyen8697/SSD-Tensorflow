@@ -283,7 +283,7 @@ def tf_ssd_bboxes_select_layer(predictions_layer, localizations_layer,
         d_scores = {}
         d_bboxes = {}
         for c in range(0, num_classes):
-            if c != ignore_class:
+            if c != ignore_class or num_classes == 1:
                 # Remove boxes under the threshold.
                 scores = predictions_layer[:, :, c]
                 fmask = tf.cast(tf.greater_equal(scores, select_threshold), scores.dtype)

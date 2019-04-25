@@ -298,9 +298,10 @@ def random_flip_left_right(image, bboxes, seed=None):
         result = control_flow_ops.cond(mirror_cond,
                                        lambda: array_ops.reverse_v2(image, [1]),
                                        lambda: image)
-        # Flip bboxes.
-        bboxes = control_flow_ops.cond(mirror_cond,
-                                       lambda: flip_bboxes(bboxes),
-                                       lambda: bboxes)
+        if bboxes is not None:
+            # Flip bboxes.
+            bboxes = control_flow_ops.cond(mirror_cond,
+                                           lambda: flip_bboxes(bboxes),
+                                           lambda: bboxes)
         return fix_image_flip_shape(image, result), bboxes
 
