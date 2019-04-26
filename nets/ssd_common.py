@@ -111,7 +111,7 @@ def tf_ssd_bboxes_encode_layer(labels,
         # Mask: check threshold + scores + no annotations + num_classes.
         mask = tf.greater(jaccard, feat_scores)
         # mask = tf.logical_and(mask, tf.greater(jaccard, matching_threshold))
-        mask = tf.logical_and(mask, feat_scores > -0.5)
+        mask = tf.logical_and(mask, feat_scores > 0.5)
         mask = tf.logical_and(mask, label < num_classes)
         imask = tf.cast(mask, tf.int64)
         fmask = tf.cast(mask, dtype)
