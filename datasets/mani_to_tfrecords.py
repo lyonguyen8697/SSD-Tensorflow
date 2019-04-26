@@ -87,10 +87,10 @@ def _process_image(directory, annotation):
     # Find annotations.
     bboxes = []
     for bbox in annotation['bbox']:
-        xmin = bbox['x'] / shape[0]
-        ymin = bbox['y'] / shape[1]
-        xmax = (bbox['x'] + bbox['width']) / shape[0]
-        ymax = (bbox['y'] + bbox['height']) / shape[1]
+        xmin = np.clip(bbox['x'] / shape[0], 0, 1)
+        ymin = np.clip(bbox['y'] / shape[1], 0, 1)
+        xmax = np.clip((bbox['x'] + bbox['width']) / shape[0], 0, 1)
+        ymax = np.clip((bbox['y'] + bbox['height']) / shape[1], 0, 1)
         bboxes.append((ymin, xmin, ymax, xmax))
     return image_data, shape, bboxes
 
