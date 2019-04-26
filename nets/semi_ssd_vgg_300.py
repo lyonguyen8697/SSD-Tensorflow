@@ -745,13 +745,13 @@ def semi_ssd_losses(labeled_preds,
         alpha = tf.clip_by_value(tf.subtract(tf.cast(t, dtype=tf.float32), T1) / (T2 - T1), 0, 1, name='alpha')
 
         for labeled_loss, unlabeled_loss in zip(labeled_losses, unlabeled_losses):
-            loss = tf.cond(alpha > 0, lambda: labeled_loss + alpha * unlabeled_loss, lambda: labeled_loss)
+            loss = labeled_loss + alpha * unlabeled_loss
             tf.losses.add_loss(loss)
 
             tf.add_to_collection('labeled_losses', labeled_loss)
             tf.add_to_collection('unlabeled_losses', unlabeled_loss)
 
-    tf.add_to_collection(tf.GraphKeys.SUMMARIES, 'semi_ssd_losses/alpha:0')
+        tf.summary.scalar('alpha', alpha)
 
 
 def ssd_losses_old(logits, localisations,
